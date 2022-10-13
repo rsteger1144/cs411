@@ -1,0 +1,12 @@
+So for every idea we have, we need to write a paragraph about it. So if you really like an idea just add it below and it must include:
+A database
+Two APIs from the Internet
+Third-Party Authentication 
+Decoupled Architecture 
+Frontend + backend that is separated
+
+Pitches below:
+
+NASA Song Cover
+
+This application will use Nasa’s API and Spotify’s API to create a new cover photo for the provided album or song cover. The user will log into their Spotify account and their Spotify username will be saved within our database. By logging into their Spotify account, they will be logging into our application. Once a user is logged in, they will enter the album or song title and this application will retrieve a random Nasa photo from the same day the album or song was  released (music data retrieved from Spotify API). If there is no photo available on NASA API, then pick a photo from closest date. This Nasa photo will be the new album or song cover. The song data and Nasa photo will be saved in the database for the username to access when they sign in later on.
