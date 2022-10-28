@@ -1,1 +1,2 @@
-As a logged-in user, I want to generate art based on my own specifications and use it as the cover of the album. The generated cover can then be saved on the server. 
+As a logged-in user, I want to generate art based on my specifications and use it as the album cover. The generated cover can then be saved on the server. 
+The user can choose to generate AI art to their specifications by clicking a separate button. They will be prompted to enter a string that describes their ideas. The string is processed and sent to the AI art API. The AI art API will return a picture of the generated art. The picture is then stored in the database as the cover for the album.
