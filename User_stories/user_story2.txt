@@ -1,1 +1,2 @@
 As a logged-in user, I will want to save the last five album covers that I received (NASA photos of the day or randomly generated photos) so that I don’t have to remake them when I use the application. 
+Every time a user opens the app, the app will show the last five covers the user made previously as a pop-up and ask the user to decide whether the user wants to keep them. After choosing which covers to keep and others to discard, the user can decide whether to remake the cover or not. 
