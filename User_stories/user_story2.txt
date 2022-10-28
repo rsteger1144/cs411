@@ -1,0 +1,1 @@
+As a logged-in user, I will want to save the last five album covers that I received (NASA photos of the day or randomly generated photos) so that I don’t have to remake them when I use the application. 

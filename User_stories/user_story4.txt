@@ -1,0 +1,1 @@
+As a logged-in user, if I do not want to use the NASAs space photo, I can also use an AI to generate art based on the song’s features. So, they can be used as album covers and saved on the server.

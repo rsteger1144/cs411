@@ -1,0 +1,1 @@
+As a logged-in user, I want to find the NASA photo taken on the day of the album release and set it as the new cover of the album. I would like to change the cover albums/song image to a space image since I love space. As a space and science lover, changing my favorite album/song cover to the space photos of the day would be amazing.

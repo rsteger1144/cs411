@@ -1,0 +1,1 @@
+As a logged-in user, I want to generate art based on my own specifications and use it as the cover of the album. The generated cover can then be saved on the server. 
