@@ -11,3 +11,4 @@ mysql-connector-python==8.0.27
 mysqlclient==2.0.3
 SQLAlchemy==1.4.23
 virtualenv==20.9.0
+flask_cors==3.0.10
