@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import "./MainPage.css";
 
-const BACKEND_URL = '/';
+const BACKEND_URL = 'http://localhost:5000/cover';
 
 function MainPage() {
 
