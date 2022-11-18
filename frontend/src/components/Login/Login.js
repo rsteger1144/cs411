@@ -6,7 +6,6 @@ import "./Login.css";
 import querystring from 'querystring';
 const BACKEND_URL = 'http://localhost:5000/cover';
 
-
 function generateRandomString(length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,16 +15,12 @@ function generateRandomString(length) {
     return text;
 };
 
-
 function Login() {
-    
 
-
+    const navigate = useNavigate();
     const [errMsg, setErrMsg] = useState('');
     const [errStatus, setErrStatus] = useState(false);
     const [success, setSuccess] = useState(false);
-  
-
 
     const handleSubmit = async (e) => {
         // e.preventDefault();
@@ -33,7 +28,6 @@ function Login() {
         try {
 
             var client_id = "f6cb0946bed04a7a869ebb90027a3527";
-
             var scope = 'user-read-private user-read-email';
             var redirect_uri = 'http://localhost:3000/loggedIn';
             var state = generateRandomString(16);
@@ -47,10 +41,16 @@ function Login() {
             };
 
             var spotifyUrl = 'https://accounts.spotify.com/authorize?' + querystring.stringify(queryParams);
-            const response = await redirect(spotifyUrl);
+            // const response = await redirect(spotifyUrl);
 
-            console.log(JSON.stringify(response));
-            console.log(response);
+            console.log(spotifyUrl);
+
+            // navigate(spotifyUrl);
+            window.open(spotifyUrl);
+            // console.log(JSON.stringify(response));
+            // console.log(response);
+            // Window.location.href = spotifyUrl;
+
             } catch (response) {
                 if (response === null || response === undefined) {
                     setErrMsg('No Server Response');
@@ -60,9 +60,8 @@ function Login() {
                 }
                 // setErrStatus(true);
             }
-            // setSuccess(true);
+            setSuccess(true);
         }
-
     const renderForm = (
         <div className="form">
             <form onSubmit={handleSubmit}>
@@ -93,7 +92,5 @@ function Login() {
     </div>
     );
 }
-
-
 
 export default Login;
