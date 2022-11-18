@@ -5,9 +5,17 @@ import "./MainPage.css";
 const BACKEND_URL = 'http://localhost:5000/cover';
 
 function MainPage() {
-  let {access_token, token_type,expires_in,state} = useParams();
+  
 
-  console.log(access_token, token_type,expires_in,state);
+  // console.log(window.location.href);
+  var paramsString = window.location.href.split('#')[1];
+  const params = new URLSearchParams(paramsString); 
+  
+  console.log(params.get("access_token"));
+  console.log(params.get("token_type"));
+  console.log(params.get("expires_in"));
+  console.log(params.get("state"));
+
   const navigate = useNavigate();
   const userRef = useRef();
 
