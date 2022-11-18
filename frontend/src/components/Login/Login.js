@@ -33,7 +33,7 @@ function Login() {
             var state = generateRandomString(16);
 
             const queryParams = {
-                response_type: 'code',
+                response_type: 'token',
                 client_id: client_id,
                 scope: scope,
                 redirect_uri: redirect_uri,

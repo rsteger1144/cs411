@@ -1,11 +1,13 @@
 import { useRef, useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import "./MainPage.css";
 
 const BACKEND_URL = 'http://localhost:5000/cover';
 
 function MainPage() {
+  let {access_token, token_type,expires_in,state} = useParams();
 
+  console.log(access_token, token_type,expires_in,state);
   const navigate = useNavigate();
   const userRef = useRef();
 
@@ -56,6 +58,7 @@ function MainPage() {
   }
 
   const renderForm = (
+    
       <div className="form">
         <form onSubmit={handleSubmit}>
           <div className="prompt">
