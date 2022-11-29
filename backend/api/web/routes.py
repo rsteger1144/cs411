@@ -1,9 +1,18 @@
+import base64
+import shutil
+import tempfile
 import json
 import requests
 from . import temp
 
-from flask import request
+from flask import request, abort
 #from app import db
+
+
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+auth_manager = SpotifyClientCredentials()
+sp = spotipy.Spotify(auth_manager=auth_manager)
 
 def homepage_data():
     """
@@ -21,18 +30,36 @@ def homepage_data():
 def root_site():
     return homepage_data()
 
+def get_album_release_date(album_name, artist_name):
+    """
+    Input: album name and artist name
+    return: teh release date of provided album
+    """
+    results = sp.search(q = "album:" + album_name + " artist:" + artist_name, type = "album,artist")
+    items = results["albums"]["items"]
+    if len(items) == 0:
+        #Nothing was found with params
+        return 400
+
+    #Iterate through all matching params
+    for item in items:
+        #iterate through all artists associated
+        for artist in item['artists']:
+            #If artist and album name match return the release date
+            #We will just return the first one that matches
+            if artist['name'] == artist_name:
+                if item['name'] == album_name:
+                    return item['release_date']
+    return 400
 
 # for the NASA api, only have image after 1995-06-20
-
 # example call http://localhost:5000/nasaImage?imgDate=1995-06-20
-
-def getImages(date):
+def get_nasa_image(date):
     """
-    Input: None
+    Input: release date of album
     return: a URL of the image
     """
     try:
-        
         if date == None:
             return "date is required"
         params = {
@@ -42,17 +69,46 @@ def getImages(date):
         
         response = requests.get("https://api.nasa.gov/planetary/apod",params=params)
         # print(response.url)
-        dict = {}
-        dict["url"] = response.json()["url"]
-        dict["date"] = date
-        return dict
+        return response.json()["url"]
     except Exception as e:
-        return (str(e))
+        return 400
 
+def nasa_image(album_name, artist_name):
+    rel_date = get_album_release_date(album_name, artist_name)
+    if type(rel_date) is int:
+        #return error message
+        return abort(rel_date) 
+    
+    url = get_nasa_image(rel_date)
+    if type(url) is int:
+        #return error message
+        return abort(url)
+    #create temp directory for session
+    dirpath = tempfile.mkdtemp()
+    filepath = dirpath + url.split("/")[-1]
+    r = requests.get(url, stream = True)
+
+    # Check if the image was retrieved successfully
+    if r.status_code == 200:
+        r.raw.decode_content = True
+        with open(filepath,'wb') as f:
+            shutil.copyfileobj(r.raw, f)
+    else:
+        return 400
+
+    #if successful put new data in db
+
+    #send to frontend
+    file = open(filepath, 'rb')
+    dict = {}
+    dict["image"] = base64.b64encode(file.read()).decode() #to DECODE in frontend: base64.b64decode(dict["image"])
+    dict["release_date"] = rel_date
+
+    #clean up temp dir
+    shutil.rmtree(dirpath)
+    return dict
 
 @temp.route("/nasaImage")
 def nasaImage():
-
-    return json.dumps(getImages(request.args.get("imgDate")))
-
+    return json.dumps(nasa_image(request.args.get("album"), request.args.get("artist")))
 
