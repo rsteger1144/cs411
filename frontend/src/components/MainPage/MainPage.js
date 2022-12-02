@@ -2,7 +2,11 @@ import { useRef, useState, useEffect } from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import "./MainPage.css";
 
-const BACKEND_URL = 'http://localhost:5000/cover';
+// const BACKEND_URL = 'http://localhost:5000/cover';
+
+
+
+
 
 function MainPage() {
   
@@ -37,24 +41,24 @@ function MainPage() {
     e.preventDefault();
 
     try {
-        const requestOptions = {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({"title": recordName, "artist_name":artistName})
-        };
-        const response = await (await fetch(BACKEND_URL, requestOptions)).json();
-        console.log(JSON.stringify(response));
-
-        if(!Number.isInteger(response)) {
-          throw response;
-        }
+        let uu = "http://10.239.194.82:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName);
+        console.log(uu);
+        const response = await (await fetch(uu)).json();
+        //console.log(JSON.stringify(response));
+        console.log(response["image"]);
         setRecordName('');
         setArtistName('');
         setSuccess(true);
-        navigate('/display');
+        //THIS CODE WILL BE MOVED
+        let img = document.createElement("img");
+        img.src = response["image"];
+       // img.style.border = "10px solid white";
+       // img.style.borderRadius = "10px";
+        document.body.appendChild(img);
+        //THIS CODE WILL BE MOVED^
+
+        //NAVIGATE TO DISPLAY PAGE WITH RESPONSE DATA
+        //navigate('/display'); //navigate to new page
     } catch (response) {
         if (response === null || response === undefined) {
           setErrMsg('No Server Response');
@@ -66,7 +70,6 @@ function MainPage() {
   }
 
   const renderForm = (
-    
       <div className="form">
         <form onSubmit={handleSubmit}>
           <div className="prompt">
@@ -74,6 +77,8 @@ function MainPage() {
               to generate a new Space themed music cover!
             </p>
           </div>
+         
+       
           <div className="input-container">
           <label>Album/Song Name: </label>
             <input
@@ -104,9 +109,29 @@ function MainPage() {
           <div className="error">
             {errStatus ? <div> {errMsg} </div> : <></>}
           </div>
-        </form>
+          
+
+          {/* Historical pics  */}
+          <div className='Five history Pics'>
+          <label>Historical pics</label>
+          
       </div>
+      
+        </form>
+        
+      </div>
+
     );
+
+//     function bigImg(x) {
+//       x.style.height = "64px";
+//       x.style.width = "64px";
+//     }
+    
+//     function normalImg(x) {
+//       x.style.height = "32px";
+//       x.style.width = "32px";
+//     }
   
   return (
       <div>
