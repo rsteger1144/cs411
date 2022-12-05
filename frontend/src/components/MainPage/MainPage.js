@@ -5,9 +5,6 @@ import "./MainPage.css";
 // const BACKEND_URL = 'http://localhost:5000/cover';
 
 
-
-
-
 function MainPage() {
   
 
@@ -15,10 +12,10 @@ function MainPage() {
   var paramsString = window.location.href.split('#')[1];
   const params = new URLSearchParams(paramsString); 
   
-  console.log(params.get("access_token"));
-  console.log(params.get("token_type"));
-  console.log(params.get("expires_in"));
-  console.log(params.get("state"));
+  // console.log(params.get("access_token"));
+  // console.log(params.get("token_type"));
+  // console.log(params.get("expires_in"));
+  // console.log(params.get("state"));
 
   const navigate = useNavigate();
   const userRef = useRef();
@@ -28,6 +25,8 @@ function MainPage() {
   const [errMsg, setErrMsg] = useState('');
   const [errStatus, setErrStatus] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const [imgSrc, setImgSrc] = useState('');
 
   useEffect(() => {
       userRef.current.focus();
@@ -41,20 +40,21 @@ function MainPage() {
     e.preventDefault();
 
     try {
-        let uu = "http://10.239.194.82:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName);
-        console.log(uu);
+        let uu = "http://localhost:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName);
+        // console.log(uu);
         const response = await (await fetch(uu)).json();
         //console.log(JSON.stringify(response));
-        console.log(response["image"]);
+        // console.log(response["image"]);
         setRecordName('');
         setArtistName('');
-        setSuccess(true);
+        // setSuccess(true);
         //THIS CODE WILL BE MOVED
-        let img = document.createElement("img");
-        img.src = response["image"];
+        // let img = document.createElement("img");
+        console.log(response["image"]);
+        setImgSrc(response["image"]);
        // img.style.border = "10px solid white";
        // img.style.borderRadius = "10px";
-        document.body.appendChild(img);
+        // document.body.appendChild(img);
         //THIS CODE WILL BE MOVED^
 
         //NAVIGATE TO DISPLAY PAGE WITH RESPONSE DATA
@@ -114,7 +114,13 @@ function MainPage() {
           {/* Historical pics  */}
           <div className='Five history Pics'>
           <label>Historical pics</label>
-          
+          <div className='Five history Pics'>
+            <img src={imgSrc} alt="" />
+            {/* <img src={imgSrc} alt="" />
+            <img src={imgSrc} alt="" />
+            <img src={imgSrc} alt="" />
+            <img src={imgSrc} alt="" /> */}
+          </div>
       </div>
       
         </form>
@@ -138,7 +144,7 @@ function MainPage() {
         <div className="app">
             <div className="main-page">
                 <div className="title">Main Page</div>
-                {success ? <></> : renderForm}
+                {renderForm}
             </div>
         </div> 
       </div>
