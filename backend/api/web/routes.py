@@ -11,7 +11,11 @@ from flask import request, abort
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-auth_manager = SpotifyClientCredentials()
+
+
+cid = "replace with your client id"
+secret = "replace with your secret"
+auth_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
 def homepage_data():
@@ -36,19 +40,22 @@ def get_album_release_date(album_name, artist_name):
     return: teh release date of provided album
     """
     results = sp.search(q = "album:" + album_name + " artist:" + artist_name, type = "album,artist")
-    items = results["albums"]["items"]
-    if len(items) == 0:
+    # print (results)
+    albums = results["albums"]["items"]
+    # print (albums)
+    
+    if len(albums) == 0:
         #Nothing was found with params
         return 400
 
     #Iterate through all matching params
-    for item in items:
+    for item in albums:
         #iterate through all artists associated
         for artist in item['artists']:
             #If artist and album name match return the release date
             #We will just return the first one that matches
-            if artist['name'] == artist_name:
-                if item['name'] == album_name:
+            if artist['name'].lower() == artist_name.lower():
+                if item['name'].lower() == album_name.lower():
                     return item['release_date']
     return 400
 
@@ -75,6 +82,8 @@ def get_nasa_image(date):
 
 def nasa_image(album_name, artist_name):
     rel_date = get_album_release_date(album_name, artist_name)
+    
+    print (rel_date)
     if type(rel_date) is int:
         #return error message
         return abort(rel_date) 
@@ -101,7 +110,8 @@ def nasa_image(album_name, artist_name):
     #send to frontend
     file = open(filepath, 'rb')
     dict = {}
-    dict["image"] = base64.b64encode(file.read()).decode() #to DECODE in frontend: base64.b64decode(dict["image"])
+    # dict["image"] = base64.b64encode(file.read()).decode() #to DECODE in frontend: base64.b64decode(dict["image"])
+    dict["image"] = url
     dict["release_date"] = rel_date
 
     #clean up temp dir
@@ -110,5 +120,8 @@ def nasa_image(album_name, artist_name):
 
 @temp.route("/nasaImage")
 def nasaImage():
-    return json.dumps(nasa_image(request.args.get("album"), request.args.get("artist")))
+    token = request.args.get("token")
+    album = request.args.get("album")
+    artist = request.args.get("artist")
+    return json.dumps(nasa_image(album, artist))
 
