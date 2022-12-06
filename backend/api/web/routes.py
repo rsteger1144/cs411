@@ -8,14 +8,13 @@ from . import temp
 from flask import request, abort
 #from app import db
 
-
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-
 cid = "replace with your client id"
 secret = "replace with your secret"
-auth_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
+auth_manager = SpotifyClientCredentials() #uses env variables 
+#auth_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(auth_manager=auth_manager)
 
 def homepage_data():
@@ -75,7 +74,6 @@ def get_nasa_image(date):
         }
         
         response = requests.get("https://api.nasa.gov/planetary/apod",params=params)
-        # print(response.url)
         return response.json()["url"]
     except Exception as e:
         return 400
@@ -83,7 +81,6 @@ def get_nasa_image(date):
 def nasa_image(album_name, artist_name):
     rel_date = get_album_release_date(album_name, artist_name)
     
-    print (rel_date)
     if type(rel_date) is int:
         #return error message
         return abort(rel_date) 
@@ -105,8 +102,6 @@ def nasa_image(album_name, artist_name):
     else:
         return 400
 
-    #if successful put new data in db
-
     #send to frontend
     file = open(filepath, 'rb')
     dict = {}
@@ -118,10 +113,37 @@ def nasa_image(album_name, artist_name):
     shutil.rmtree(dirpath)
     return dict
 
+def submitToken(token):
+    #check if token exists in db
+
+    #if exists
+        #set up new key value
+    #else 
+        #do nothing
+    return
+
 @temp.route("/nasaImage")
 def nasaImage():
     token = request.args.get("token")
+    submitToken(token)
     album = request.args.get("album")
     artist = request.args.get("artist")
+    #get data from db and send with this (some changes would still need to be made)
     return json.dumps(nasa_image(album, artist))
+
+def submitToDB(token, url, album, artist, rel_date):
+    #submit new thing to db
+    return
+
+
+@temp.route("/submitImage", methods = ['POST'])
+def submitImage():
+    submitToDB(
+        request.form['token'],
+        request.form['url'],
+        request.form['album'],
+        request.form['artist'],
+        request.form['rel_date']
+    )
+    return 200
 
