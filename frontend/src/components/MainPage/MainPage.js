@@ -40,30 +40,22 @@ function MainPage() {
     e.preventDefault();
 
     try {
-        let uu = "http://localhost:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName);
+        let uu = "http://10.0.0.44:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName);
+        
+                 
         // console.log(uu);
         const response = await (await fetch(uu)).json();
         //console.log(JSON.stringify(response));
         // console.log(response["image"]);
         setRecordName('');
         setArtistName('');
-        // setSuccess(true);
-        //THIS CODE WILL BE MOVED
-        // let img = document.createElement("img");
-        console.log(response["image"]);
-        setImgSrc(response["image"]);
-       // img.style.border = "10px solid white";
-       // img.style.borderRadius = "10px";
-        // document.body.appendChild(img);
-        //THIS CODE WILL BE MOVED^
-
-        //NAVIGATE TO DISPLAY PAGE WITH RESPONSE DATA
-        //navigate('/display'); //navigate to new page
+        //we need to redirect this page  
+        // navigate('/display/cover'); //navigate to new page
     } catch (response) {
         if (response === null || response === undefined) {
           setErrMsg('No Server Response');
         } else {
-          setErrMsg('Date was invalid');
+          setErrMsg('Album or Artist is invalid');
         }
         setErrStatus(true);
     }
@@ -111,17 +103,7 @@ function MainPage() {
           </div>
           
 
-          {/* Historical pics  */}
-          <div className='Five history Pics'>
-          <label>Historical pics</label>
-          <div className='Five history Pics'>
-            <img src={imgSrc} alt="" />
-            {/* <img src={imgSrc} alt="" />
-            <img src={imgSrc} alt="" />
-            <img src={imgSrc} alt="" />
-            <img src={imgSrc} alt="" /> */}
-          </div>
-      </div>
+        
       
         </form>
         

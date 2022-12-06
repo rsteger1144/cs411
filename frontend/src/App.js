@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./components/MainPage/MainPage";
 import Login from "./components/Login/Login";
-//import DisplayPage from "./components/DisplayPage/DisplayPage";
+import DisplayPage from "./components/DisplayPage/DisplayPage";
 
 function App() {
   return (
@@ -13,6 +13,7 @@ function App() {
             <Route exact path="/display" element={<MainPage />} /> 
             <Route exact path="/loggedIn" element={<MainPage />} />
             <Route exact path="/" element={<Login />} />   
+            <Route exact path="/display/cover" element={<DisplayPage />} />   
           </Routes>
         </div>
       </BrowserRouter>
