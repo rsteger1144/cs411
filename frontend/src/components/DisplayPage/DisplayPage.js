@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {Route, useNavigate, useParams, useLocation} from 'react-router-dom';
 import "./DisplayPage.css";
 // import MainPage from "./components/MainPage/MainPage";
 
@@ -8,6 +8,11 @@ import "./DisplayPage.css";
 
 function DisplayPage() {
   
+  console.log("DisplayPage");
+  const {state} = useLocation();
+  const { image, release_date, username} = state;
+  console.log(image, release_date, username);
+
 
   // console.log(window.location.href);
   var paramsString = window.location.href.split('#')[1];
@@ -29,9 +34,9 @@ function DisplayPage() {
 
   const [imgSrc, setImgSrc] = useState('');
 
-  useEffect(() => {
-      userRef.current.focus();
-  }, [])
+  // useEffect(() => {
+  //     userRef.current.focus();
+  // }, [])
 
   useEffect(() => {
       setErrMsg('');

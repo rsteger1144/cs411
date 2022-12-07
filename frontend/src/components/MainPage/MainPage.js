@@ -40,11 +40,22 @@ function MainPage() {
     e.preventDefault();
 
     try {
-        let uu = "http://10.0.0.44:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName);
+        let uu = "http://localhost:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName)+"&&token="+(params.get("access_token"));
         
                  
         // console.log(uu);
         const response = await (await fetch(uu)).json();
+        console.log(response);
+        navigate(
+          '/display/cover', 
+          { 
+            state: {
+              image: response["image"],
+              release_date: response["release_date"],
+              username: response["username"]
+            }
+          }
+        );
         //console.log(JSON.stringify(response));
         // console.log(response["image"]);
         setRecordName('');

@@ -78,7 +78,7 @@ def get_nasa_image(date):
     except Exception as e:
         return 400
 
-def nasa_image(album_name, artist_name):
+def nasa_image(album_name, artist_name, token):
     rel_date = get_album_release_date(album_name, artist_name)
     
     if type(rel_date) is int:
@@ -101,14 +101,23 @@ def nasa_image(album_name, artist_name):
             shutil.copyfileobj(r.raw, f)
     else:
         return 400
+    
+    spotifyUrl = "https://api.spotify.com/v1/me"
+    
+    response = requests.get(spotifyUrl, 
+                            headers = {"Authorization": "Bearer " + token})
 
+    if response.status_code == 200:
+        username = response.json()["display_name"]
+        
     #send to frontend
     file = open(filepath, 'rb')
     dict = {}
     # dict["image"] = base64.b64encode(file.read()).decode() #to DECODE in frontend: base64.b64decode(dict["image"])
     dict["image"] = url
     dict["release_date"] = rel_date
-
+    dict["username"] = username
+    
     #clean up temp dir
     shutil.rmtree(dirpath)
     return dict
@@ -129,7 +138,7 @@ def nasaImage():
     album = request.args.get("album")
     artist = request.args.get("artist")
     #get data from db and send with this (some changes would still need to be made)
-    return json.dumps(nasa_image(album, artist))
+    return json.dumps(nasa_image(album, artist, token))
 
 def submitToDB(token, url, album, artist, rel_date):
     #submit new thing to db
@@ -146,4 +155,5 @@ def submitImage():
         request.form['rel_date']
     )
     return 200
+
 
