@@ -40,7 +40,7 @@ function MainPage() {
     e.preventDefault();
 
     try {
-        let uu = "http://10.0.0.44:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName)+"&&token="+(params.get("access_token"));
+        let uu = "http://localhost:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName)+"&&token="+(params.get("access_token"));
         
                  
         // console.log(uu);
@@ -50,6 +50,8 @@ function MainPage() {
           '/display/cover', 
           { 
             state: {
+              token: params.get("access_token"),
+              stateInfo: params.get("state"),
               image: response["image"],
               artist: artistName,
               album: recordName,

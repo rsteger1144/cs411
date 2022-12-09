@@ -114,6 +114,8 @@ def nasa_image(album_name, artist_name, token):
 
     if response.status_code == 200:
         username = response.json()["display_name"]
+    else:
+        username = "Unknown"
     
     #send to frontend
     file = open(filepath, 'rb')
