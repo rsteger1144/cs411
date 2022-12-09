@@ -3,6 +3,7 @@ import shutil
 import tempfile
 import json
 import requests
+from pymongo import MongoClient
 from . import temp
 
 from flask import request, abort
@@ -16,6 +17,9 @@ secret = "replace with your secret"
 auth_manager = SpotifyClientCredentials() #uses env variables 
 #auth_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
 sp = spotipy.Spotify(auth_manager=auth_manager)
+
+client = MongoClient("mongodb+srv://CS411Group8:ZbjBnkmqepiweev2@cluster0.mzh0ktn.mongodb.net/test")
+db = client["flask_db"]
 
 def homepage_data():
     """
@@ -38,6 +42,7 @@ def get_album_release_date(album_name, artist_name):
     Input: album name and artist name
     return: teh release date of provided album
     """
+
     results = sp.search(q = "album:" + album_name + " artist:" + artist_name, type = "album,artist")
     # print (results)
     albums = results["albums"]["items"]
@@ -103,13 +108,13 @@ def nasa_image(album_name, artist_name, token):
         return 400
     
     spotifyUrl = "https://api.spotify.com/v1/me"
-    
+
     response = requests.get(spotifyUrl, 
                             headers = {"Authorization": "Bearer " + token})
 
     if response.status_code == 200:
         username = response.json()["display_name"]
-        
+    
     #send to frontend
     file = open(filepath, 'rb')
     dict = {}
@@ -124,11 +129,15 @@ def nasa_image(album_name, artist_name, token):
 
 def submitToken(token):
     #check if token exists in db
-
-    #if exists
-        #set up new key value
-    #else 
-        #do nothing
+    cursor = db.users.find({"token": token})
+    tokenCount = db.users.count_documents({"token": token})
+    
+    if(tokenCount == 1):
+        # set up new key value
+        tFound = "Token found"
+    else:
+        # do nothing print()
+        tFound = "Token not found"
     return
 
 @temp.route("/nasaImage")
@@ -142,6 +151,13 @@ def nasaImage():
 
 def submitToDB(token, url, album, artist, rel_date):
     #submit new thing to db
+    db.image.insert({
+        "token": token,
+        "url": url,
+        "album": album,
+        "artist": artist,
+        "rel_date": rel_date,
+    })
     return
 
 

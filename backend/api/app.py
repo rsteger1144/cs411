@@ -14,14 +14,14 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     CORS(app)
-    # client = MongoClient('localhost', 27017, username='CS411Group8', password='ZbjBnkmqepiweev2')
+    client = MongoClient("mongodb+srv://CS411Group8:ZbjBnkmqepiweev2@cluster0.mzh0ktn.mongodb.net/test")
 
     from web import temp as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    # db = client.flask_db
-    # todos = db.todos
+    db = client["flask_db"]
+    todos = db.todos
 
-    # Migrate(app, db)
+    Migrate(app, db)
 
     return app
