@@ -75,7 +75,7 @@ def get_nasa_image(date):
             return "date is required"
         params = {
             "date": date,
-            "api_key": "5878VE4xRlytSxseglYIvUdptjap2M9wZvG07DUv"
+            "api_key": "l9d0Tf7BZl3fs1I9P3jyJQHyYRM99M5myK1tsrxr"
         }
         
         response = requests.get("https://api.nasa.gov/planetary/apod",params=params)
