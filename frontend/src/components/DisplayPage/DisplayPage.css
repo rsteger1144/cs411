@@ -1,0 +1,78 @@
+.app {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    background-color: #000000;
+  }
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    height: 400px;
+ }
+  
+input[type="submit"] {
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  background: #303747;;
+  border: 1px solid #303747;;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+label{
+  text-align: center;
+}
+
+input[type="submit"]:hover {
+  background: #030e59;;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.main-page {
+  background-color: rgb(44, 38, 62);
+  margin-top: 20px;
+  padding: 3rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.list-container {
+  display: flex;
+}
+
+.error {
+  color: red;
+  font-size: 15px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.title {
+  font-size: 25px;
+  margin-bottom: 20px;
+  color: white
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px;
+  color:#fff;
+}
+
+.prompt {
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}

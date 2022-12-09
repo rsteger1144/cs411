@@ -40,7 +40,7 @@ function MainPage() {
     e.preventDefault();
 
     try {
-        let uu = "http://localhost:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName)+"&&token="+(params.get("access_token"));
+        let uu = "http://10.0.0.44:5000/nasaImage?album="+(recordName)+"&&artist="+(artistName)+"&&token="+(params.get("access_token"));
         
                  
         // console.log(uu);
@@ -51,6 +51,8 @@ function MainPage() {
           { 
             state: {
               image: response["image"],
+              artist: artistName,
+              album: recordName,
               release_date: response["release_date"],
               username: response["username"]
             }
@@ -61,7 +63,7 @@ function MainPage() {
         setRecordName('');
         setArtistName('');
         //we need to redirect this page  
-        // navigate('/display/cover'); //navigate to new page
+        //navigate('/display/cover'); //navigate to new page
     } catch (response) {
         if (response === null || response === undefined) {
           setErrMsg('No Server Response');
